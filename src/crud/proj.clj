@@ -28,15 +28,30 @@
          (str "Produto " id ": " data "\n")))
   )
 
+(defn update-product [id req]
+  (let [content (slurp (:body req))
+        data (json/read-str content :key-fn keyword)]
+    (swap! db update id merge data)
+    {:status 200
+     :headers {"Content-Type" "text/plain"}
+     :body (str (get @db id))})
+  )
+
 (defn app [req]
   (case (:request-method req)
     :get {:status 200
           :headers {"Content-Type" "text/plain"}
           :body (str "Todos os produtos:\n" (all-products))}
+    
     :post (if (= (:uri req) "/product")
             (new-product req)
             {:status 405 :body "Método não permitido"})
-    {:status 404 :body "Não encontrado"}))
+    
+    :put (let [uri (:uri req)]
+           (if (re-matches #"/product/\d+" uri)
+             (let [id (second (re-matches #"/product/(\d+)" uri))] 
+               (update-product (Integer/parseInt id) req))
+             {:status 405 :body "Método não permitido"})){:status 404 :body "Não encontrado"}))
 
 (defn -main [& args]
   (let [port 8080]
