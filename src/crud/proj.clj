@@ -37,6 +37,10 @@
      :body (str (get @db id))})
   )
 
+(defn get-id [uri] 
+     (when-let [id (second (re-matches #"/product/(\d+)" uri))]
+      (Integer/parseInt id)))
+    
 (defn app [req]
   (case (:request-method req)
     :get {:status 200
@@ -48,10 +52,10 @@
             {:status 405 :body "Método não permitido"})
     
     :put (let [uri (:uri req)]
-           (if (re-matches #"/product/\d+" uri)
-             (let [id (second (re-matches #"/product/(\d+)" uri))] 
-               (update-product (Integer/parseInt id) req))
-             {:status 405 :body "Método não permitido"})){:status 404 :body "Não encontrado"}))
+           (if-let [id (get-id uri)] 
+               (update-product id req)
+             {:status 405 :body "Método não permitido"}))
+  {:status 404 :body "Não encontrado"}))
 
 (defn -main [& args]
   (let [port 8080]
