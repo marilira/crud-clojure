@@ -37,6 +37,13 @@
      :body (str (get @db id))})
   )
 
+(defn delete-product [id]
+  (swap! db dissoc id)
+  {:status 200
+     :headers {"Content-Type" "text/plain"}
+     :body (str "Produto " id " foi removido")}
+  )
+
 (defn get-id [uri] 
      (when-let [id (second (re-matches #"/product/(\d+)" uri))]
       (Integer/parseInt id)))
@@ -54,6 +61,11 @@
     :put (let [uri (:uri req)]
            (if-let [id (get-id uri)] 
                (update-product id req)
+             {:status 405 :body "Método não permitido"}))
+    
+    :delete (let [uri (:uri req)]
+           (if-let [id (get-id uri)] 
+             (delete-product id)
              {:status 405 :body "Método não permitido"}))
   {:status 404 :body "Não encontrado"}))
 
