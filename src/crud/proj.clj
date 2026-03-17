@@ -22,16 +22,21 @@
      :body (str data)})
   )
   
+(defn all-products []
+  (apply str
+         (for [[id data] @db]
+         (str "Produto " id ": " data "\n")))
+  )
+
 (defn app [req]
   (case (:request-method req)
     :get {:status 200
           :headers {"Content-Type" "text/plain"}
-          :body "Hello World"}
+          :body (str "Todos os produtos:\n" (all-products))}
     :post (if (= (:uri req) "/product")
             (new-product req)
             {:status 405 :body "Método não permitido"})
-    {:status 404 :body "Não encontrado"}
-    ))
+    {:status 404 :body "Não encontrado"}))
 
 (defn -main [& args]
   (let [port 8080]
