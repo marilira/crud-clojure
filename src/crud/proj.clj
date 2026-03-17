@@ -1,6 +1,6 @@
 (ns crud.proj
   (:require [org.httpkit.server :as server]
-            [ring.util.codec :as codec]))
+            [clojure.data.json :as json]))
 
 (defonce server (atom nil))
 
@@ -13,12 +13,13 @@
 (defonce db (atom {}))
 
 (defn new-product [req]
-  (let [content (slurp (:body req)) 
+  (let [content (slurp (:body req)) ; converte pra str
+        data (json/read-str content :key-fn keyword) ; converte pra map com :keywords
         new-id (inc (count @db))]
-    (swap! db assoc new-id content) 
+    (swap! db assoc new-id data) 
     {:status 201
      :headers {"Content-Type" "application/json"}
-     :body (str content)})
+     :body (str data)})
   )
   
 (defn app [req]
