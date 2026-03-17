@@ -12,23 +12,22 @@
 
 (defonce db (atom {}))
 
-(defn product-handler [req]
-  (let [qs (:query-string req)
-        params (codec/form-decode qs)
+(defn new-product [req]
+  (let [content (slurp (:body req)) 
         new-id (inc (count @db))]
-    (swap! db assoc new-id params)
+    (swap! db assoc new-id content) 
     {:status 201
      :headers {"Content-Type" "application/json"}
-     :body (str "Novo produto " new-id " - " params)})
+     :body (str content)})
   )
-
+  
 (defn app [req]
   (case (:request-method req)
     :get {:status 200
           :headers {"Content-Type" "text/plain"}
           :body "Hello World"}
     :post (if (= (:uri req) "/product")
-            (product-handler req)
+            (new-product req)
             {:status 405 :body "Método não permitido"})
     {:status 404 :body "Não encontrado"}
     ))
