@@ -18,7 +18,7 @@
         new-id (inc (count @db))]
     (swap! db assoc new-id data) 
     {:status 201
-     :headers {"Content-Type" "application/json"}
+     :headers {"Content-Type" "text/plain"}
      :body (str data)})
   )
   
