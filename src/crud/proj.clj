@@ -1,5 +1,6 @@
 (ns crud.proj
-  (:require [org.httpkit.server :as server]))
+  (:require [org.httpkit.server :as server]
+            [ring.util.codec :as codec]))
 
 (defonce server (atom nil))
 
