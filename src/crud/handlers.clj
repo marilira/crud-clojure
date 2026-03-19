@@ -20,11 +20,15 @@
 (defn update-product [id req]
   (let [content (slurp (:body req))
         data (json/read-str content :key-fn keyword)]
-    (db/update-item id data)
-    {:status 200
-     :headers {"Content-Type" "text/plain"}
-     :body (str (get (db/list-items) id))})
-  )
+    (if (contains? (db/list-items) id)
+      (do
+        (db/update-item id data)
+        {:status 200
+         :headers {"Content-Type" "text/plain"}
+         :body (str (get (db/list-items) id))})
+    {:status 404
+       :headers {"Content-Type" "text/plain"}
+       :body "Produto não existe"})))
 
 (defn delete-product [id]
   (if (contains? (db/list-items) id)

@@ -25,11 +25,11 @@
               :headers {"Content-Type" "text/plain"}
               :body "Página não encontrada"})
 
-      :post (if (= (:uri req) "/product")
+      :put (if (= (:uri req) "/product")
               (h/new-product req)
               {:status 405 :body "Método não permitido"})
 
-      :put (if id
+      :patch (if id
              (h/update-product id req)
              {:status 405 :body "Método não permitido"})
 
