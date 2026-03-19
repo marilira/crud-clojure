@@ -3,8 +3,8 @@
             [crud.db :as db]))
 
 (defn new-product [req]
-  (let [content (slurp (:body req)) ; converte pra str
-        data (json/read-str content :key-fn keyword)] ; converte pra map com :keywords
+  (let [content (slurp (:body req)) 
+        data (json/read-str content :key-fn keyword)] 
     (db/add-item data) 
     {:status 201
      :headers {"Content-Type" "text/plain"}
