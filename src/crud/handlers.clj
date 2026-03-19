@@ -32,3 +32,15 @@
      :headers {"Content-Type" "text/plain"}
      :body (str "Produto " id " foi removido")}
   )
+
+(defn get-product [id]
+  (let [data (db/get-item id)]
+   (if (empty? data)
+     {:status 404
+      :headers {"Content-Type" "text/plain"}
+      :body "Produto não existe"}
+     {:status 200
+      :headers {"Content-Type" "text/plain"}
+      :body (str "Visualizando Produto " id ":\n" data)}) 
+  )
+  )

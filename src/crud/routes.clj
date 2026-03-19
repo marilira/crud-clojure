@@ -3,23 +3,37 @@
             [crud.handlers :as h]))
 
 (defn app [req]
-  (case (:request-method req)
-    :get {:status 200
-          :headers {"Content-Type" "text/plain"}
-          :body (str "Todos os produtos:\n" (h/all-products))}
-    
-    :post (if (= (:uri req) "/product")
-            (h/new-product req)
-            {:status 405 :body "Método não permitido"})
-    
-    :put (let [uri (:uri req)]
-             (if-let [id (utils/get-id uri)] 
-               (h/update-product id req)
-               {:status 405 :body "Método não permitido"}))
-    
-    :delete (let [uri (:uri req)]
-                (if-let [id (utils/get-id uri)] 
-                  (h/delete-product id)
-                  {:status 405 :body "Método não permitido"}))
-    {:status 404 :body "Não encontrado"})
-    )
+  (let [uri (:uri req)
+        id (utils/get-id uri)]
+    (case (:request-method req)
+      :get (cond
+             (= (:uri req) "/")
+             {:status 200
+              :headers {"Content-Type" "text/plain"}
+              :body "CRUD API in Clojure"}
+
+             (= (:uri req) "/products")
+             {:status 200
+              :headers {"Content-Type" "text/plain"}
+              :body (str "Todos os produtos:\n" (h/all-products))}
+             
+             id
+             (h/get-product id)
+
+             :else
+             {:status 404
+              :headers {"Content-Type" "text/plain"}
+              :body "Página não encontrada"})
+
+      :post (if (= (:uri req) "/product")
+              (h/new-product req)
+              {:status 405 :body "Método não permitido"})
+
+      :put (if id
+             (h/update-product id req)
+             {:status 405 :body "Método não permitido"})
+
+      :delete (if id
+                (h/delete-product id)
+                {:status 405 :body "Método não permitido"})
+      {:status 404 :body "Não encontrado"})))
