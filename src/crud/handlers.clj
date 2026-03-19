@@ -7,15 +7,12 @@
         data (json/read-str content :key-fn keyword)] 
     (db/add-item data) 
     {:status 201
-     :headers {"Content-Type" "text/plain"}
-     :body (str data)})
+     :headers {"Content-Type" "application/json"}
+     :body (json/write-str data)})
   )
   
 (defn all-products []
-  (apply str
-         (for [[id data] (db/list-items)]
-              (str "Produto " id ": " data "\n")))
-  )
+  (json/write-str (db/list-items)))
 
 (defn update-product [id req]
   (let [content (slurp (:body req))
@@ -24,31 +21,31 @@
       (do
         (db/update-item id data)
         {:status 200
-         :headers {"Content-Type" "text/plain"}
-         :body (str (get (db/list-items) id))})
+         :headers {"Content-Type" "application/json"}
+         :body (json/write-str (get (db/list-items) id))})
     {:status 404
-       :headers {"Content-Type" "text/plain"}
-       :body "Produto não existe"})))
+       :headers {"Content-Type" "application/json"}
+       :body (json/write-str {:message "Produto não existe"})})))
 
 (defn delete-product [id]
   (if (contains? (db/list-items) id)
     (do
       (db/delete-item id)
       {:status 200
-       :headers {"Content-Type" "text/plain"}
-       :body (str "Produto " id " foi removido")})
+       :headers {"Content-Type" "application/json"}
+       :body (json/write-str {:message (str "Produto " id " foi removido")})})
     {:status 404
-       :headers {"Content-Type" "text/plain"}
-       :body "Produto não existe"}))
+       :headers {"Content-Type" "application/json"}
+       :body (json/write-str {:message "Produto não existe"})}))
 
 (defn get-product [id]
   (let [data (db/get-item id)]
    (if (empty? data)
      {:status 404
-      :headers {"Content-Type" "text/plain"}
-      :body "Produto não existe"}
+      :headers {"Content-Type" "application/json"}
+      :body (json/write-str {:message "Produto não existe"})}
      {:status 200
-      :headers {"Content-Type" "text/plain"}
-      :body (str "Visualizando Produto " id ":\n" data)}) 
+      :headers {"Content-Type" "application/json"}
+      :body (json/write-str data)}) 
   )
   )
