@@ -27,7 +27,7 @@
          :body (json/write-str (db/get-item id))})
     {:status 404
        :headers {"Content-Type" "application/json"}
-       :body (json/write-str {:message "Produto não existe"})})))
+       :body (json/write-str {:message "Product not found"})})))
 
 (defn delete-product [id]
   (if (contains? (db/list-items) id)
@@ -35,17 +35,17 @@
       (db/retract-item id)
       {:status 200
        :headers {"Content-Type" "application/json"}
-       :body (json/write-str {:message (str "Produto " id " foi removido")})})
+       :body (json/write-str {:message (str "Product " id " deleted")})})
     {:status 404
        :headers {"Content-Type" "application/json"}
-       :body (json/write-str {:message "Produto não existe"})}))
+       :body (json/write-str {:message "Product not found"})}))
 
 (defn get-product [id]
   (let [data (db/get-item id)]
    (if (empty? data)
      {:status 404
       :headers {"Content-Type" "application/json"}
-      :body (json/write-str {:message "Produto não existe"})}
+      :body (json/write-str {:message "Product not found"})}
      {:status 200
       :headers {"Content-Type" "application/json"}
       :body (json/write-str data)}) 

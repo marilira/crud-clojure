@@ -22,17 +22,17 @@
              (h/get-product id)
 
              :else
-             {:status 404 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Página não encontrada"})})
+             {:status 404 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Not found"})})
 
       :put (if (= (:uri req) "/product")
               (h/new-product req)
-              {:status 405 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Método não permitido"})})
+              {:status 405 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Method not allowed"})})
 
       :patch (if id
              (h/update-product id req)
-             {:status 405 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Método não permitido"})})
+             {:status 405 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Method not allowed"})})
 
       :delete (if id
                 (h/delete-product id)
-                {:status 405 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Método não permitido"})})
-      {:status 404 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Não encontrado"})})))
+                {:status 405 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Method not allowed"})})
+      {:status 404 :headers {"Content-Type" "application/json"} :body (json/write-str {:message "Not found"})})))
