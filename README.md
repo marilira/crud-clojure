@@ -2,6 +2,13 @@
 
 Uma API web extremamente simples construída com Clojure e [http-kit](https://github.com/http-kit/http-kit).
 
+Este repositório inclui um arquivo de coleção do [Insomnia](https://insomnia.rest/) para facilitar o teste da API.
+#### Como usar
+1. Abra o Insomnia.
+2. Vá em **Application → Preferences → Data → Import Data → From File**.
+3. Selecione o arquivo `Insomnia.yaml` presente neste repositório.
+4. A coleção será importada com todas as rotas e exemplos de requisição.
+
 ## Endpoints
 ### GET `/`
 - **Descrição:** Retorna um texto simples confirmando que a API está ativa.

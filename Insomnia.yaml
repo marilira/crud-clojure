@@ -1,0 +1,170 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: crud products
+meta:
+  id: wrk_02eb357f03654a9bb22afb4d16983714
+  created: 1773706334147
+  modified: 1774004812468
+  description: ""
+collection:
+  - url: http://localhost:8080/product/2
+    name: remover
+    meta:
+      id: req_06a9f4d8e235443ca3c71b9bdef76d41
+      created: 1773769836177
+      modified: 1773935056316
+      isPrivate: false
+      description: ""
+      sortKey: -1773769836177
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/products
+    name: listar
+    meta:
+      id: req_08a242694b6e438691495322243fbc31
+      created: 1773925827830
+      modified: 1774002544133
+      isPrivate: false
+      description: ""
+      sortKey: -1773931856620
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/product/3
+    name: editar
+    meta:
+      id: req_9d8228090012460695537a3cb60c6347
+      created: 1773928290905
+      modified: 1774004278122
+      isPrivate: false
+      description: ""
+      sortKey: -1773928290905
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: '{"name": "pp3", "price": 1.0}'
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/product
+    name: adicionar
+    meta:
+      id: req_4000a1882e2e47429bdfde26a77b7d57
+      created: 1773929290496
+      modified: 1774004247084
+      isPrivate: false
+      description: ""
+      sortKey: -1773929290496
+    method: PUT
+    body:
+      mimeType: application/json
+      text: '{"name": "p3", "price": 2.2}'
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/
+    name: home
+    meta:
+      id: req_f176429411cf4370812ed9d82573f190
+      created: 1773931770781
+      modified: 1774002542825
+      isPrivate: false
+      description: ""
+      sortKey: -1773931856670
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/product/2
+    name: produto
+    meta:
+      id: req_7760ebab8d5f40699f773e08d37e8437
+      created: 1773931856570
+      modified: 1774004010388
+      isPrivate: false
+      description: ""
+      sortKey: -1773931856570
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_8ae83794e21b6f3f149715eb017128f58e078f90
+    created: 1773706334156
+    modified: 1773706334156
+environments:
+  name: Base Environment
+  meta:
+    id: env_8ae83794e21b6f3f149715eb017128f58e078f90
+    created: 1773706334152
+    modified: 1773706334152
+    isPrivate: false
