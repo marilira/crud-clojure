@@ -1,11 +1,13 @@
 (ns crud.handlers
   (:require [clojure.data.json :as json]
+            [crud.utils :as utils]
             [crud.db :as db]))
 
 (defn new-product [req]
   (let [content (slurp (:body req)) 
-        data (json/read-str content :key-fn keyword)] 
-    (db/add-item data) 
+        data (json/read-str content :key-fn keyword)
+        new-id (utils/next-id)] 
+    (db/upsert-item (assoc data :id new-id))
     {:status 201
      :headers {"Content-Type" "application/json"}
      :body (json/write-str data)})
@@ -17,12 +19,12 @@
 (defn update-product [id req]
   (let [content (slurp (:body req))
         data (json/read-str content :key-fn keyword)]
-    (if (contains? (db/list-items) id)
+    (if (some #{id} (map first (db/list-items)))
       (do
-        (db/update-item id data)
+        (db/upsert-item (assoc data :id id))
         {:status 200
          :headers {"Content-Type" "application/json"}
-         :body (json/write-str (get (db/list-items) id))})
+         :body (json/write-str (db/get-item id))})
     {:status 404
        :headers {"Content-Type" "application/json"}
        :body (json/write-str {:message "Produto não existe"})})))
@@ -30,7 +32,7 @@
 (defn delete-product [id]
   (if (contains? (db/list-items) id)
     (do
-      (db/delete-item id)
+      (db/retract-item id)
       {:status 200
        :headers {"Content-Type" "application/json"}
        :body (json/write-str {:message (str "Produto " id " foi removido")})})
