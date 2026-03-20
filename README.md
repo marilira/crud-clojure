@@ -22,53 +22,59 @@ Este repositório inclui um arquivo de coleção do [Insomnia](https://insomnia.
 - **Descrição:** Adiciona um novo produto.
 - **Request:**
 ```json
-{"name": "p1", "price": 2}
+{"name": "p1", "price": 2.0}
 ```
 - **Response:**
 ```json
 {
 	"name": "p1",
-	"price": 2
+	"price": 2.0
 }
 ```
 ### GET `/products`
 - **Descrição:** Retorna todos os produtos.
 - **Response:**
 ```json
-{
-	"1": {
-		"name": "p1",
-		"price": 2
-	},
-	"2": {
-		"name": "p2",
-		"price": 2
-	}
-}
+[
+	[
+		2,
+		"p2",
+		2.0
+	],
+	[
+		1,
+		"p1",
+		2.0
+	]
+]
 ```
 ### GET `/product/:id`
 - **Descrição:** Retorna os dados do produto especificado.
 - **Response:**
 `/product/1`
 ```json
-{
-	"name": "p1",
-	"price": 2
-}
+[
+	[
+		"p1",
+		2.0
+	]
+]
 ```
 ### PATCH `/product/:id`
 - **Descrição:** Atualiza os dados do produto especificado.
 - **Request:**
 ```json
-{"name": "p7"}
+{"name": "p7", "price": 2.0}
 ```
 - **Response:**
 `/product/1`
 ```json
-{
-	"name": "p7",
-	"price": 2
-}
+[
+	[
+		"p7",
+		2.0
+	]
+]
 ```
 ### DELETE `/product/:id`
 - **Descrição:** Remove o produto especificado.
@@ -76,7 +82,7 @@ Este repositório inclui um arquivo de coleção do [Insomnia](https://insomnia.
 `/product/1`
 ```json
 {
-	"message": "Produto 1 foi removido"
+	"message": "Product 1 deleted"
 }
 ```
 
