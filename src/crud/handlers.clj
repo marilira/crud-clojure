@@ -30,7 +30,7 @@
        :body (json/write-str {:message "Product not found"})})))
 
 (defn delete-product [id]
-  (if (contains? (db/list-items) id)
+  (if (contains? (set (map first (db/list-items))) id)
     (do
       (db/retract-item id)
       {:status 200
